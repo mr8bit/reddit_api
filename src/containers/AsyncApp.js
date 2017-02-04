@@ -11,28 +11,28 @@ class AsyncApp extends Component {
     this.handleRefreshClick = this.handleRefreshClick.bind(this)
   }
 
-  componentDidMount() {
-    const { dispatch, selectedSubreddit } = this.props
-    dispatch(fetchPostsIfNeeded(selectedSubreddit))
+  componentDidMount() { // запуск при старте
+    const { dispatch, selectedSubreddit } = this.props;
+    console.log("Start");
+    dispatch(fetchPostsIfNeeded(selectedSubreddit)); // диспатчим и вызываем загрузку постов
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
-      const { dispatch, selectedSubreddit } = nextProps
-      dispatch(fetchPostsIfNeeded(selectedSubreddit))
+  componentWillReceiveProps(nextProps) { // когда компонент получает новые свойства
+    if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) { // если предыдушее выбранное значение не равно новому
+      const { dispatch, selectedSubreddit } = nextProps;
+      dispatch(fetchPostsIfNeeded(selectedSubreddit)); // диспатчим и вызываем загрузку постов
     }
   }
 
-  handleChange(nextSubreddit) {
-    this.props.dispatch(selectSubreddit(nextSubreddit))
+  handleChange(nextSubreddit) { // при изменении
+    this.props.dispatch(selectSubreddit(nextSubreddit));
   }
 
-  handleRefreshClick(e) {
-    e.preventDefault()
-
-    const { dispatch, selectedSubreddit } = this.props
-    dispatch(invalidateSubreddit(selectedSubreddit))
-    dispatch(fetchPostsIfNeeded(selectedSubreddit))
+  handleRefreshClick(e) { // просим обновить данные по постам
+    e.preventDefault();
+    const { dispatch, selectedSubreddit } = this.props;
+    dispatch(invalidateSubreddit(selectedSubreddit));
+    dispatch(fetchPostsIfNeeded(selectedSubreddit));
   }
 
   render() {
@@ -41,10 +41,10 @@ class AsyncApp extends Component {
       <div>
         <Picker value={selectedSubreddit}
                 onChange={this.handleChange}
-                options={[ 'reactjs', 'frontend' ]} />
+                options={[ 'reactjs', 'frontend', 'angular', 'python' ]} />
         <p>
           {lastUpdated &&
-            <span>
+            <span>reactjs
               Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
               {' '}
             </span>
